@@ -41,32 +41,31 @@ class Blink extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: this.props.width,
             height: this.props.height,
+            left: this.props.left,
             top: this.props.top,
-            right: this.props.right,
             children: [],
-            isNew: true
+            isNew: true,
+            layer: this.props.layer
         }
     }
 
     leftClick(isNew){
         if (isNew){
+
             this.setState(state => {
-                const newRight = parseInt(state.right) / 2;
+                const newLayer = state.layer + 1;
                 const children = state.children.concat(
                     <Blink 
                         backgroundColor={'#'+Math.random().toString(16).substr(-6)} 
-                        width={this.state.width} 
                         height={this.state.height}
                         top={this.state.top}
-                        right={newRight}
+                        layer={newLayer}
+                        left={30}
                     />
                 );
-                const newWidth = this.state.width / 2;
                 return {
                     children,
-                    width: newWidth,
                     isNew: false
                   };
             })
@@ -75,21 +74,30 @@ class Blink extends React.Component {
         }
     }
 
+    rightClick(e) {
+        if (e.nativeEvent.which === 3) {
+            e.preventDefault()
+            console.log('Right click');
+        }
+      }
+      
     render() {
         return (
             <div 
                 style={{
                     backgroundColor:'#'+Math.random().toString(16).substr(-6),
-                    width:this.state.width + "%",
+                    width: "30vw",
                     height:this.state.height + "%",
                     top:this.state.top + "%",
-                    right:this.state.right + "%",
+                    left:this.state.left + "vw",
                     position:"absolute"
                 }}
                 onClick={ () => { this.leftClick(this.state.isNew) }}
+                onContextMenu={this.rightClick}
             >
                 { this.state.children }
             </div>
+            
         )   
     }
     
@@ -100,10 +108,9 @@ class Mother extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: "100",
             height: "100",
             top:"0",
-            right:"0"
+            layer: 0
         }
     }
 
@@ -111,11 +118,10 @@ class Mother extends React.Component {
     loadTemplate() {
         return (
             <Blink 
-            width={this.state.width}
             height={this.state.height}
             top={this.state.top}
-            right={this.state.right}
-            backgroundColor={'#'+Math.random().toString(16).substr(-6)}
+            left={0}
+            layer={this.state.layer}
         />
         )
     }
