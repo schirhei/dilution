@@ -2,22 +2,96 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const Blink = ( props ) => {
-    // todo: logic for da boxes!!
-    return (
-        <div style={{
-            backgroundColor:"white",
-            width:props.width + "%",
-            height:props.height + "%"
-        }}
-                onClick={ () => {
-                    props.onClick()
-                    
-                }
-                }>
+/*var template = [
+    {
+        "text":"i am a parent",
+        "children":[
+            1,
+            2
+        ]
+    },
+    {
+        "text":"piano",
+        "children":[
+            3,
+            4
+        ]
+    },
+    {
+        "text":"saxophone",
+        "children":[
 
-        </div>
-    )
+        ]
+    },
+    {
+        "text":"guy yelling",
+        "children":[
+
+        ]
+    },
+    {
+        "text":"audience",
+        "children":[
+
+        ]
+    }
+]*/
+
+class Blink extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            width: this.props.width,
+            height: this.props.height,
+            top: this.props.top,
+            right: this.props.right,
+            children: [],
+            isNew: true
+        }
+    }
+
+    leftClick(isNew){
+        if (isNew){
+            this.setState(state => {
+                const newRight = parseInt(state.right) / 2;
+                const children = state.children.concat(
+                    <Blink 
+                        backgroundColor={'#'+Math.random().toString(16).substr(-6)} 
+                        width={this.state.width} 
+                        height={this.state.height}
+                        top={this.state.top}
+                        right={newRight}
+                    />
+                );
+                const newWidth = this.state.width / 2;
+                return {
+                    children,
+                    width: newWidth,
+                    isNew: false
+                  };
+            })
+        } else {
+            console.log("todo: edit inside text");
+        }
+    }
+
+    render() {
+        return (
+            <div 
+                style={{
+                    backgroundColor:'#'+Math.random().toString(16).substr(-6),
+                    width:this.state.width + "%",
+                    height:this.state.height + "%",
+                    top:this.state.top + "%",
+                    right:this.state.right + "%",
+                    position:"absolute"
+                }}
+                onClick={ () => { this.leftClick(this.state.isNew) }}
+            >
+                { this.state.children }
+            </div>
+        )   
+    }
     
 }
 
@@ -27,14 +101,23 @@ class Mother extends React.Component {
         super(props)
         this.state = {
             width: "100",
-            height: "100"
+            height: "100",
+            top:"0",
+            right:"0"
         }
     }
 
-    changeWidth(oldWidth) {
-        this.setState({
-            width: oldWidth/2
-        })
+    
+    loadTemplate() {
+        return (
+            <Blink 
+            width={this.state.width}
+            height={this.state.height}
+            top={this.state.top}
+            right={this.state.right}
+            backgroundColor={'#'+Math.random().toString(16).substr(-6)}
+        />
+        )
     }
 
     render() {
@@ -48,14 +131,12 @@ class Mother extends React.Component {
                 left:"0",
                 margin: "0"
             }}>
-                <Blink width={this.state.width}
-                       height={this.state.height}
-                       onClick={ () => this.changeWidth(this.state.width)}
-                />
+                {this.loadTemplate()}
             </div>
         );
     }
 }
+
 ReactDOM.render(
     <Mother />,
     document.getElementById('root')
