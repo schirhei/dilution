@@ -4,7 +4,7 @@ export default class Blink extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            height: this.props.height,
+            width: this.props.width,
             left: this.props.left,
             top: this.props.top,
             children: [],
@@ -22,10 +22,8 @@ export default class Blink extends React.Component {
                 const newKey = state.keyNum + 1;
                 const children = state.children.concat(
                     <Blink 
-                        backgroundColor={'#'+Math.random().toString(16).substr(-6)} 
-                        height={state.height}
-                        top={state.top}
-                        left={30}
+                        width={state.width}
+                        top={30}
                         key={newKey}
                         keyNum={newKey}
                         parentClick={this.rightClick}
@@ -47,12 +45,11 @@ export default class Blink extends React.Component {
             console.log('Right click');
             this.setState(state => {
                 const newKey = this.state.keyNum + 1;
-                const newHeight = this.state.height / 2;
-                const newTop = this.state.height / 2;
+                const newWidth = this.state.width / 2;
+                const newTop = this.state.width / 2;
                 const children = state.children.concat(
                     <Blink 
-                        backgroundColor={'#'+Math.random().toString(16).substr(-6)} 
-                        height={newHeight}
+                        width={newWidth}
                         top={newTop}
                         left={30}
                         key={newKey}
@@ -72,11 +69,12 @@ export default class Blink extends React.Component {
             <div 
                 id={this.state.keyNum.toString()}
                 style={{
-                    backgroundColor:'#'+Math.random().toString(16).substr(-6),
-                    width: "30vw",
-                    height:this.state.height + "%",
-                    top:this.state.top + "%",
-                    left:this.state.left + "vw",
+                    border:"5px solid black",
+                    backgroundColor:"white",
+                    width: this.state.width + "vw", 
+                    height:"30vh",
+                    top:this.state.top + "vh",
+                    left:"0",
                     position:"absolute"
                 }}
                 onClick={ () => { this.leftClick(this.state.isNew) }}

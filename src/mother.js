@@ -5,8 +5,8 @@ export default class Mother extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            height: "100",
-            top:"0",
+            width: "99",
+            left:"0",
             keyNum: 0
         }
     }
@@ -18,9 +18,8 @@ export default class Mother extends React.Component {
     loadTemplate() {
         return (
             <Blink 
-                height={this.state.height}
-                top={this.state.top}
-                left={0}
+                width={this.state.width}
+                top={0}
                 key={this.state.keyNum}
                 keyNum={this.state.keyNum}
                 parentClick={this.rightClick}
@@ -30,17 +29,7 @@ export default class Mother extends React.Component {
 
     render() {
         return (
-            <div 
-                style={{
-                    backgroundColor:"black",
-                    position:"absolute",
-                    height:"100vh",
-                    width:"100vw",
-                    top:"0",
-                    left:"0",
-                    margin: "0"
-                }}
-            >
+            <div>
                 {this.loadTemplate()}
             </div>
         );

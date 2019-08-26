@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Mother from './mother.js'
+import Mother from './mother.js';
+import './index.css';
 
 /*var template = [
     {
