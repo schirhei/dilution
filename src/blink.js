@@ -13,7 +13,7 @@ export default class Blink extends React.Component {
             parentClick: this.props.parentClick
         }
         this.leftClick = this.leftClick.bind(this);
-
+        this.state.parentClick = this.state.parentClick.bind(this);
     }
 
     leftClick(isNew) {
@@ -28,7 +28,7 @@ export default class Blink extends React.Component {
                         left={30}
                         key={newKey}
                         keyNum={newKey}
-                        parentClick={state.parentClick}
+                        parentClick={this.rightClick}
                     />
                 );
                 return {
@@ -41,7 +41,31 @@ export default class Blink extends React.Component {
         }
     }
 
-    
+    rightClick(e) {
+        if (e.nativeEvent.which === 3) {
+            e.preventDefault()
+            console.log('Right click');
+            this.setState(state => {
+                const newKey = this.state.keyNum + 1;
+                const newHeight = this.state.height / 2;
+                const newTop = this.state.height / 2;
+                const children = state.children.concat(
+                    <Blink 
+                        backgroundColor={'#'+Math.random().toString(16).substr(-6)} 
+                        height={newHeight}
+                        top={newTop}
+                        left={30}
+                        key={newKey}
+                        keyNum={newKey}
+                        parentClick={this.state.parentClick}
+                    />
+                );
+                return {
+                    children
+                };
+            })
+        }
+    }
       
     render() {
         return (

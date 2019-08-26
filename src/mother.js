@@ -11,29 +11,8 @@ export default class Mother extends React.Component {
         }
     }
 
-    rightClick(e) {
-        if (e.nativeEvent.which === 3) {
-            e.preventDefault()
-            console.log('Right click');
-            this.setState(state => {
-                const newKey = this.state.keyNum + 1;
-                const newHeight = this.state.height / 2;
-                const newTop = this.state.height / 2;
-                const children = state.children.concat(
-                    <Blink 
-                        backgroundColor={'#'+Math.random().toString(16).substr(-6)} 
-                        height={newHeight}
-                        top={newTop}
-                        left={30}
-                        key={newKey}
-                        keyNum={newKey}
-                    />
-                );
-                return {
-                    children
-                };
-            })
-        }
+    rightClick() {
+        return ""
     }
 
     loadTemplate() {
