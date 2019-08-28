@@ -6,30 +6,56 @@ export default class Blink extends React.Component {
         this.state = {
             children: this.props.children,
             width:this.props.width,
-            left: this.props.left
+            left: this.props.left,
+            properChildren:[],
         }
-        if (this.state.children[0] != null) {
-            this.properChildren = []
-            var newLeft = 0 - (100 / this.state.children.length);
-            var newWidth = 100 / this.state.children.length;
-            for (var i = 0; i < this.state.children.length; i++) {
-                newLeft += 100 / this.state.children.length;
-                this.properChildren = this.properChildren.concat(
-                    <Blink children={this.state.children[i].children} width={newWidth} left={newLeft} />
-                )
-            }
-
-        }
-        
+        this.leftClick = this.leftClick.bind(this);
+        this.rightClick = this.rightClick.bind(this);
+        this.loadChildren = this.loadChildren.bind(this);
     }
 
-    leftClick(isNew) {
-        
+    componentDidMount() {
+        this.loadChildren()
+    }
+
+    loadChildren() {
+        let childs = this.state.children
+        if (childs[0] != null) {
+            var tempChildren = []
+            var newLeft = 0 - (100 / childs.length);
+            var newWidth = (100 / childs.length) * 0.98;
+            for (var i = 0; i < childs.length; i++) {
+                newLeft += 100 / childs.length;
+                tempChildren = tempChildren.concat(
+                    <Blink children={childs[i].children} width={newWidth} left={newLeft} updateTemplate={this.props.updateTemplate} />
+                )
+            }
+            this.setState({properChildren: tempChildren})
+        }
+    }
+
+    leftClick(e) {
+        if (this.state.children[0] == null) {
+            this.state.children.pop()
+            this.state.children.push({text:"", children:[null]})
+            //this.props.updateTemplate()
+            this.loadChildren()
+        } else {
+            console.log("todo: edit inside text")
+        }
     }
 
     rightClick(e) {
         if (e.nativeEvent.which === 3) {
             e.preventDefault()
+            /*e.stopPropagation()
+            console.log(this.state.children)
+            this.setState ( state => {
+                const children = state.children.concat(
+
+                )
+             } )
+            this.state.children.push({text:"NEW GUY!!", children:[null]})*/
         }
     }
       
@@ -46,10 +72,10 @@ export default class Blink extends React.Component {
                     top:"30vh",
                     left:this.state.left + "%"
                 }}
-                onClick={ () => { this.leftClick(this.state.isNew) }}
+                onClick={ this.leftClick }
                 onContextMenu={this.rightClick}
             >
-                { this.properChildren }
+                { this.state.properChildren }
             </div>
         )   
     }

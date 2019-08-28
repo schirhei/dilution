@@ -10,25 +10,25 @@ export default class Mother extends React.Component {
         this.state = {
             template: [ 
                 { text:"middle", 
-                 children: [{ text:"bottom",
-                              children: [null] },
-                            { text:"bottom-side",
-                              children: [null] }
-                           ]
-                            },
+                  children: [{ text:"bottom",
+                               children: [null] },
+                             { text:"bottom-side",
+                               children: [null] }]
+                },
                 { text:"middle-side", 
-                    children: [{ text:"middle-side", 
-                    children: [null]
-                }]
+                  children: [{ text:"middle-side", 
+                               children: [null]}]
                 },
                 { text:"middle-side", 
                     children: [null]
-                }
-                            
+                }       
             ]  
-                
-            
         }
+        this.updateTemplate = this.updateTemplate.bind(this);
+    }
+
+    updateTemplate() {
+        console.log(this.state.template)
     }
 
     loadTemplate() {
@@ -38,6 +38,7 @@ export default class Mother extends React.Component {
                 children={this.state.template}
                 width={100}
                 left={0}
+                updateTemplate={this.updateTemplate}
             />
         )
     }

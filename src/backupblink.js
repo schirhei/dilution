@@ -12,7 +12,7 @@ export default class Blink extends React.Component {
             layer: this.props.layer
         }
     }
-
+    
     leftClick(isNew){
         if (isNew){
             this.setState(state => {
