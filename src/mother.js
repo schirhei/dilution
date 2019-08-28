@@ -1,25 +1,43 @@
 import React from 'react';
 import Blink from './blink.js'
-import key from './key.js';
+//import key from './key.js';
 
-var k = new key(0);
+//var k = new key(0);
 
 export default class Mother extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            width: "100",
-            left:"0"
+            template: [ 
+                { text:"middle", 
+                 children: [{ text:"bottom",
+                              children: [null] },
+                            { text:"bottom-side",
+                              children: [null] }
+                           ]
+                            },
+                { text:"middle-side", 
+                    children: [{ text:"middle-side", 
+                    children: [null]
+                }]
+                },
+                { text:"middle-side", 
+                    children: [null]
+                }
+                            
+            ]  
+                
+            
         }
     }
 
     loadTemplate() {
         return (
             <Blink 
-                width={this.state.width}
-                top={0}
-                key={k.number()}
-                keyNum={k}
+                text={this.state.template[0].text}
+                children={this.state.template}
+                width={100}
+                left={0}
             />
         )
     }
@@ -30,7 +48,8 @@ export default class Mother extends React.Component {
                 id="bigguy"
                 style={{
                     width:"100vw",
-                    position:"relative"
+                    top:"-30vh",
+                    position:"absolute"
                 }}    
             >
                 {this.loadTemplate()}
