@@ -1,8 +1,8 @@
 import React from 'react';
-import Blink from './blink.js'
-//import key from './key.js';
+import Blink from './blink.js';
 
-//var k = new key(0);
+import key from './key.js';
+var k = new key(0);
 
 export default class Mother extends React.Component {
     constructor(props) {
@@ -28,28 +28,13 @@ export default class Mother extends React.Component {
         }
     }
 
-    loadTemplate() {
-        return (
-            <Blink 
-                text={this.state.template[0].text}
-                peers={this.state.template}
-                width={99}
-                left={0}
-            />
-        );
-    }
-
     render() {
         return (
-            <div
-                id="bigguy"
-                style={{
-                    width:"100vw",
-                    top:"-30vh",
-                    position:"absolute"
-                }}    
-            >
-                {this.loadTemplate()}
+            <div id="bigguy">
+                <Blink 
+                    peers={ this.state.template }
+                    k={ k }
+                />
             </div>
         );
     }
