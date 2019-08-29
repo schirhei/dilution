@@ -33,7 +33,6 @@ export default class Blink extends React.Component {
                             peers={childs} 
                             width={100} 
                             left={0} 
-                            updateTemplate={this.props.updateTemplate} 
                             />
                     )
                 }

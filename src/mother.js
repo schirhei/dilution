@@ -26,16 +26,6 @@ export default class Mother extends React.Component {
                    
             ]  
         }
-
-        this.updateTemplate = this.updateTemplate.bind(this)
-    }
-
-    updateTemplate() {
-        this.forceUpdate();
-    }
-
-    rightClick() {
-        return ""
     }
 
     loadTemplate() {
@@ -45,8 +35,6 @@ export default class Mother extends React.Component {
                 peers={this.state.template}
                 width={99}
                 left={0}
-                updateTemplate={this.updateTemplate}
-                rightClick={this.rightClick}
             />
         );
     }
