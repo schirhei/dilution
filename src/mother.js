@@ -8,7 +8,7 @@ export default class Mother extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            template: [ 
+            template: [ {text:"", children: [
                 { text:"middle", 
                   children: [{ text:"bottom",
                                children: [null] },
@@ -17,30 +17,38 @@ export default class Mother extends React.Component {
                 },
                 { text:"middle-side", 
                   children: [{ text:"middle-side", 
-                               children: [null]}]
+                               children: [null] }]
                 },
                 { text:"middle-side", 
                     children: [null]
-                }       
+                }    
+            ]}
+                   
             ]  
         }
-        this.updateTemplate = this.updateTemplate.bind(this);
+
+        this.updateTemplate = this.updateTemplate.bind(this)
     }
 
     updateTemplate() {
-        console.log(this.state.template)
+        this.forceUpdate();
+    }
+
+    rightClick() {
+        return ""
     }
 
     loadTemplate() {
         return (
             <Blink 
                 text={this.state.template[0].text}
-                children={this.state.template}
-                width={100}
+                peers={this.state.template}
+                width={99}
                 left={0}
                 updateTemplate={this.updateTemplate}
+                rightClick={this.rightClick}
             />
-        )
+        );
     }
 
     render() {

@@ -4,33 +4,50 @@ export default class Blink extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            height: this.props.height,
-            left: this.props.left,
-            top: this.props.top,
-            children: [],
-            isNew: true,
-            layer: this.props.layer
+            children:         this.props.children,
+            width:            this.props.width,
+            left:             this.props.left,
+            properChildren:   [],
+            parentRightClick: this.props.rightClick
         }
+        this.leftClick    = this.leftClick.bind(this);
+        this.rightClick   = this.rightClick.bind(this);
+        this.loadChildren = this.loadChildren.bind(this);
     }
-    
-    leftClick(isNew){
-        if (isNew){
-            this.setState(state => {
-                const newLayer = state.layer + 1;
-                const children = state.children.concat(
+
+    componentDidMount() {
+        this.loadChildren();
+    }
+
+    loadChildren() {
+        let childs = this.state.children;
+        if (childs[0] != null) {
+            var tempChildren = [];
+            var newLeft      = 0 - (100 / childs.length);
+            var newWidth     = (100 / childs.length) * 0.98;
+
+            for (var i = 0; i < childs.length; i++) {
+                newLeft += 100 / childs.length;
+                tempChildren = tempChildren.concat(
                     <Blink 
-                        backgroundColor={'#'+Math.random().toString(16).substr(-6)} 
-                        height={this.state.height}
-                        top={this.state.top}
-                        layer={newLayer}
-                        left={30}
+                        children={childs[i].children} 
+                        width={newWidth} 
+                        left={newLeft} 
+                        updateTemplate={this.props.updateTemplate} 
+                        rightClick={this.rightClick}
                     />
                 );
-                return {
-                    children,
-                    isNew: false
-                  };
-            })
+            }
+
+            this.setState({properChildren: tempChildren});
+        }
+    }
+
+    leftClick() {
+        if (this.state.children[0] == null) {
+            this.state.children.pop();
+            this.state.children.push({text:"", children:[null]});
+            this.loadChildren();
         } else {
             console.log("todo: edit inside text");
         }
@@ -38,29 +55,42 @@ export default class Blink extends React.Component {
 
     rightClick(e) {
         if (e.nativeEvent.which === 3) {
-            e.preventDefault()
-            console.log('Right click');
+            e.preventDefault();
+            e.stopPropagation();
+            this.state.children.push({text:"", children:[null]});
+            var newWidth = this.state.width / 2
+            this.setState({width:newWidth})
+            this.props.updateTemplate(this.props.children);
+            this.loadChildren()
+            /*
+            console.log(this.state.children)
+            this.setState ( state => {
+                const children = state.children.concat(
+
+                )
+             } )
+            this.state.children.push({text:"NEW GUY!!", children:[null]})*/
         }
-      }
+    }
       
     render() {
         return (
-            <div 
+            <div
+                id={ this.keyStr }
                 style={{
-                    backgroundColor:'#'+Math.random().toString(16).substr(-6),
-                    width: "30vw",
-                    height:this.state.height + "%",
-                    top:this.state.top + "%",
-                    left:this.state.left + "vw",
-                    position:"absolute"
+                    border:          "5px solid black",
+                    backgroundColor: "white",
+                    position:        "absolute",
+                    height:          "30vh",
+                    top:             "30vh",
+                    width:           this.state.width + "%",
+                    left:            this.state.left + "%"
                 }}
-                onClick={ () => { this.leftClick(this.state.isNew) }}
-                onContextMenu={this.rightClick}
+                onClick={ this.leftClick }
+                onContextMenu={ this.state.parentRightClick }
             >
-                { this.state.children }
+                { this.state.properChildren }
             </div>
-            
         )   
     }
-    
 }
