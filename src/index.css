@@ -9,3 +9,9 @@ body {
     left:-33vw;
     position:absolute;
 }
+
+#textBox {
+    outline: none;
+    border:none;
+    background-color: transparent;
+}

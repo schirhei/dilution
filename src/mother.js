@@ -1,5 +1,5 @@
 import React from 'react';
-import Blink from './blink.js';
+import Blink from './blink.js'
 
 import key from './key.js';
 var k = new key(0);
@@ -10,13 +10,13 @@ export default class Mother extends React.Component {
         this.state = {
             template: [ {text:"", children: [
                 { text:"middle", 
-                  children: [{ text:"bottom",
+                  children: [{ text:"",
                                children: [null] },
-                             { text:"bottom-side",
+                             { text:"",
                                children: [null] }]
                 },
                 { text:"middle-side", 
-                  children: [{ text:"middle-side", 
+                  children: [{ text:"", 
                                children: [null] }]
                 },
                 { text:"middle-side", 

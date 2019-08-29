@@ -1,4 +1,5 @@
 import React from 'react';
+import Text from './text.js';
 
 export default class Blink extends React.Component {
     constructor(props) {
@@ -11,13 +12,20 @@ export default class Blink extends React.Component {
         this.leftClick    = this.leftClick.bind(this);
         this.rightClick   = this.rightClick.bind(this);
         this.loadPeers    = this.loadPeers.bind(this);
+        this.changeText   = this.changeText.bind(this);
     }
 
     componentDidMount() {
         this.loadPeers();
     }
 
-    
+    changeText(text, id) {
+        this.setState( state => {
+            const peers = state.peers
+            peers[id].text = text
+            return peers
+        })
+    }
 
     loadPeers() {
         const peers = this.state.peers;
@@ -37,8 +45,13 @@ export default class Blink extends React.Component {
                         style={ this.getStyle(newHeight, newTop) }
                         onClick={ this.leftClick }
                         onContextMenu={ this.rightClick }>
-                            
-                        { peers[i].text }
+                        
+                        { <Text 
+                             text={peers[i].text} 
+                             children={peers[i].children}
+                             changeText={this.changeText} 
+                             id={i} /> 
+                        }
                         { this.createChildren(peers[i].children) }
 
                     </div>
@@ -90,10 +103,7 @@ export default class Blink extends React.Component {
             children.pop();
             children.push({text:"", children:[null]});
             this.loadPeers();
-        } else {
-            console.log("todo: edit inside text");
         }
-
         e.stopPropagation();
     }
 
