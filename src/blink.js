@@ -57,7 +57,6 @@ export default class Blink extends React.Component {
                     </div>
                 );
             }
-
             this.setState({ renderedPeers:tempChildren })
         }
     }
@@ -78,7 +77,8 @@ export default class Blink extends React.Component {
             height:          height + "%",
             top:             top + "%",
             width:           "33vw",
-            left:            "33vw"
+            left:            "33vw",
+            fontSize:        "1.2em"
         }
     }
 
@@ -109,9 +109,13 @@ export default class Blink extends React.Component {
 
     rightClick(e) {
         if (e.nativeEvent.which === 3) {
-            this.state.peers.push({text:"", children:[null]});
-            this.loadPeers();
-
+            if (e.ctrlKey) {
+                this.state.peers.pop();
+                this.loadPeers();
+            } else {
+                this.state.peers.push({text:"", children:[null]});
+                this.loadPeers();
+            }
             e.preventDefault();
             e.stopPropagation();
         }
