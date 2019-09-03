@@ -51,7 +51,6 @@ export default class Menu extends React.Component {
         document.body.removeChild(element);
     }
 
-
     changeTemplate(newTemplate) {
         this.state.template.pop()
         this.state.template.push(newTemplate[0])
@@ -60,7 +59,7 @@ export default class Menu extends React.Component {
 
     import(e) {
         e.stopPropagation();
-        // in addEventListener, "this" as a keyword is messed up so we need to take it out
+        // can't use this.changeTemplate in addEventListener
         var changeTemplate = this.changeTemplate;
         var templateFile = document.getElementById("import").files[0];
         if( templateFile.type.startsWith("text/")) {
@@ -80,7 +79,6 @@ export default class Menu extends React.Component {
         }
     }
 
-
     render() {
         return (
             <div 
@@ -90,17 +88,11 @@ export default class Menu extends React.Component {
                          top:"0", 
                          right:"0",
                          textAlign:"right"}}>
-                    {this.state.menuBox}
-                    <button 
-                        key="export" 
-                        style={{ bottom:"0", 
-                                 right:"0", 
-                                 position:"fixed"}}
-                        onClick={this.export}
-                    >
-                        Export
-                    </button>
-                </div>
+                {this.state.menuBox}
+                <button style={{ bottom:"0", right:"0", position:"fixed"}} onClick={this.export}>
+                    Export
+                </button>
+            </div>
         )
     }
 }
