@@ -109,13 +109,9 @@ export default class Blink extends React.Component {
 
     rightClick(e) {
         if (e.nativeEvent.which === 3) {
-            if (e.ctrlKey) {
-                this.state.peers.pop();
-                this.loadPeers();
-            } else {
-                this.state.peers.push({text:"", children:[null]});
-                this.loadPeers();
-            }
+            this.state.peers.push({text:"", children:[null]});
+            this.loadPeers();
+            
             e.preventDefault();
             e.stopPropagation();
         }
