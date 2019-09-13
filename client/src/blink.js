@@ -118,6 +118,7 @@ export default class Blink extends React.Component {
     }
       
     render() {
+        
         return (
             <div>
                 { this.state.renderedPeers }

@@ -4,13 +4,7 @@ import Menu from './menu.js'
 import key from './key.js';
 var k = new key(0);
 
-export default class Mother extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            password:"password",
-            render:"",
-            template: [ {text:"", children: [
+/*template: [ {text:"", children: [
                 { text:"middle", 
                   children: [{ text:"",
                                children: [null] },
@@ -26,15 +20,40 @@ export default class Mother extends React.Component {
                 }    
             ]}
                    
-            ]
+            ]*/
+export default class Mother extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            password:"password",
+            render:"",
+            
         }
         this.update = this.update.bind(this);
     }
 
     componentDidMount() {
         // can't do it in state because template hasnt been mounted yet
-        this.setState({
-            render: <Blink key={81238189} peers={ this.state.template } k={ k }/>
+        
+        
+        var url = 'http://localhost:8080/api/' + this.props.match.params.id;
+        console.log(url);
+
+        var newTemplate = [];
+        fetch(url)
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            /// MESSED UP
+            newTemplate = data[0].template;
+            this.setState({render: <Blink key={81238189} peers={ data[0].template } k={ k }/>})
+            this.setState({ template: data[0].template })
+            
+            console.log(this.state.template)
+        })
+        .catch(err => {
+            newTemplate = [];
         })
     }
 
@@ -45,11 +64,19 @@ export default class Mother extends React.Component {
     }
 
     render() {
+        console.log("happen")
+        console.log(this.state.render)
         return (
+            
             <div id="bigguy">
-                { this.state.render }
+                { this.state && this.state.template &&
+                    <div>{ this.state.render }</div>
+                }   
+                
                 <Menu update={this.update} template={this.state.template} password={this.state.password}/>
+                
             </div>
+
         );
     }
 }
