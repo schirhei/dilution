@@ -10,7 +10,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
 var db;
-const client = new MongoClient(constants.MONGO_URL, { useUnifiedTopology: true }, { useNewUrlParser: true });
+const client = new MongoClient(constants.MONGO_URL, { useUnifiedTopology: true, useNewUrlParser: true });
 client.connect(err => {
     if (err) return console.log(err)
     db = client.db('boards') // whatever your database name is
